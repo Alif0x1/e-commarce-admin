@@ -13,10 +13,8 @@ export async function OPTIONS() {
     return NextResponse.json(null, { headers: corHeaders });
 }
 
-export async function POST(
-    req: Request,
-    { params }: { params: { storeId: string } }
-) {
+export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
+    const params = await props.params;
     try {
         const { productIds } = await req.json();
 
