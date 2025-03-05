@@ -8,12 +8,10 @@ interface SettingsPageProps {
   params: Promise<{ storeId: string }>
 }
 
-<<<<<<< HEAD
+
 const SettingsPage: React.FC<SettingsPageProps> = async (props:SettingsPageProps) => {
   const params = await props.params;
-=======
-const SettingsPage = async ({ params }: SettingsPageProps) => {
->>>>>>> 80d634566b85bd80828e944aecb2abbe8f47584d
+
   const { userId } = await auth()
 
   if (!userId) {
@@ -45,4 +43,6 @@ const SettingsPage = async ({ params }: SettingsPageProps) => {
 }
 
 export default SettingsPage
+
+
 
