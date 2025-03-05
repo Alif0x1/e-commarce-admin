@@ -7,10 +7,10 @@ import { SettingsForm } from './components/sattings-form'
 
 
 interface SettingsPageProps {
-  params: { storeId: string }
+  params: Promise<{ storeId: string }>
 }
 
-const SettingsPage: React.FC<SettingsPageProps> = async props => {
+const SettingsPage: React.FC<SettingsPageProps> = async (props:SettingsPageProps) => {
   const params = await props.params;
   const { userId } = await auth()
 

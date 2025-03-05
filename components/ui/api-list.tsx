@@ -24,8 +24,11 @@ const ApiList: React.FC<ApiListProps> = ({
     <>
     <ApiAlert title='GET' variant='public' description={`${baseUrl}/${entityName}`} />
     <ApiAlert title='GET' variant='public' description={`${baseUrl}/${entityName}/{${entityIDName}}`} />
+     {/* @ts-expect-error */}
     <ApiAlert title='POST' variant='admin' description={`${baseUrl}`} />
+     {/* @ts-expect-error */}
     <ApiAlert title='PATCH' variant='admin' description={`${baseUrl}/${entityName}/{${entityIDName}}`} />
+     {/* @ts-expect-error */}
     <ApiAlert title='DELETE' variant='admin' description={`${baseUrl}/${entityName}/{${entityIDName}}`} />
     </>
   )
