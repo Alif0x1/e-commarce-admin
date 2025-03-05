@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+<<<<<<< HEAD
     "lint": "next lint",
+=======
+>>>>>>> 80d634566b85bd80828e944aecb2abbe8f47584d
     "postinstall": "prisma generate"
   },
   "dependencies": {
