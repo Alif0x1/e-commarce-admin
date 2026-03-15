@@ -60,8 +60,6 @@ export async function PATCH(
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
-  console.log(body)
-
   if (!name || !price || !categoryId || !sizeId || !colourId || !images?.length) {
     return new NextResponse('Missing required fields', { status: 400 });
   }

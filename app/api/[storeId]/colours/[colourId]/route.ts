@@ -22,7 +22,7 @@ export async function GET(req: Request, props: { params: Promise<{ colourId: str
       },
     })
   } catch (error) {
-    console.log('[BILLBOARD_GET]', error)
+    console.log('[COLOUR_GET]', error)
 
     return new NextResponse('Internal Server Error', { status: 500 })
   }
@@ -83,7 +83,7 @@ export async function PATCH(
       },
     })
   } catch (error) {
-    console.log('[BILLBOARD_PATCH]', error)
+    console.log('[COLOUR_PATCH]', error)
 
     return new NextResponse('Internal Server Error', { status: 500 })
   }
@@ -129,7 +129,7 @@ export async function DELETE(
       },
     })
   } catch (error) {
-    console.log('[BILLBOARD_DELETE]', error)
+    console.log('[COLOUR_DELETE]', error)
 
     return new NextResponse('Internal Server Error', { status: 500 })
   }
