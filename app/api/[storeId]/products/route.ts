@@ -41,7 +41,7 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
     }
 
     if (! colourId) {
-      return new NextResponse('Missing coloruId', { status: 400 })
+      return new NextResponse('Missing colourId', { status: 400 })
     }
 
     if (!images || !images.length) {

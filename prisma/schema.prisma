@@ -37,7 +37,7 @@ model Billboard {
   store Store @relation("StoreToBillboard" , fields: [storeId ] ,references: [id])
   label String
   imageUrl String
-  categoty Category[]
+  categories Category[]
   creatAt DateTime @default(now())
   updateAt DateTime @updatedAt
   @@index([storeId])
