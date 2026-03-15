@@ -1,12 +1,13 @@
 'use client'
 
+import { memo } from 'react'
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 
 interface OverviewProps {
   data: { name: string; total: number }[]
 }
 
-export const Overview: React.FC<OverviewProps> = ({ data }) => {
+export const Overview: React.FC<OverviewProps> = memo(function Overview({ data }) {
   return (
     <ResponsiveContainer width="100%" height={350}>
         <BarChart data={data}>
@@ -27,4 +28,4 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
         </BarChart>
     </ResponsiveContainer>
   )
-}
+})

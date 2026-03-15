@@ -1,7 +1,8 @@
+import { unstable_cache } from "next/cache";
 import { prismadb } from "@/lib/prismadb";
 
 
-export const getOrderInfo = async (storeId: string) => {
+const fetchOrderInfo = async (storeId: string) => {
     const paidOrders = await prismadb.order.findMany({
         where: {
             storeId,
@@ -27,8 +28,11 @@ export const getOrderInfo = async (storeId: string) => {
         }
     })
 
-
     return paidOrders
-
-
 }
+
+export const getOrderInfo = (storeId: string) =>
+    unstable_cache(fetchOrderInfo, ["order-info", storeId], {
+        tags: [`store-${storeId}-orders`],
+        revalidate: 60,
+    })(storeId)
