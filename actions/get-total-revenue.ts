@@ -1,7 +1,8 @@
+import { unstable_cache } from "next/cache";
 import { prismadb } from "@/lib/prismadb";
 
 
-export const getTotalRevenue = async (storeId: string) => {
+const fetchTotalRevenue = async (storeId: string) => {
     const paidOrders = await prismadb.order.findMany({
         where: {
             storeId,
@@ -20,15 +21,6 @@ export const getTotalRevenue = async (storeId: string) => {
         }
     })
 
-    // let totalRevenue = 0
-    // for (const order of paidOrders){
-    //     for (const orderItem of order.orderItems){
-    //         totalRevenue += orderItem.product.price
-    //     }
-    // }
-
-    // return totalRevenue
-
     const totalRevenue = paidOrders.reduce((total, order) => {
         const orderTotal = order.orderItems.reduce((orderSum, orderItem) => {
             return orderSum + orderItem.product.price;
@@ -37,6 +29,10 @@ export const getTotalRevenue = async (storeId: string) => {
     }, 0)
 
     return totalRevenue
-
-
 }
+
+export const getTotalRevenue = (storeId: string) =>
+    unstable_cache(fetchTotalRevenue, ["total-revenue", storeId], {
+        tags: [`store-${storeId}-orders`],
+        revalidate: 60,
+    })(storeId)

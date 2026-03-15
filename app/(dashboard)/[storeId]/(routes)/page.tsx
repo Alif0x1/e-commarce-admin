@@ -1,6 +1,5 @@
 // In the /app directory
 
-
 import { Separator } from '@/components/ui/separator';
 import { getTotalRevenue } from '@/actions/get-total-revenue'
 import { getSalesCount } from '@/actions/get-sales-count'
@@ -10,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CreditCard, DollarSign, Package } from 'lucide-react';
 import { formatter } from '@/lib/utils';
 import { getGraphRevenue } from '@/actions/get-graph-revenue';
-import { Overview } from '@/components/ui/overview';
+import { OverviewClient } from '@/components/ui/overview-client';
 
 interface DashboardpageProps {
   params: Promise<{ storeId: string }>
@@ -19,11 +18,13 @@ interface DashboardpageProps {
 const Dashboardpage: React.FC<DashboardpageProps> = async (props: DashboardpageProps) => {
   const params = await props.params;
 
-  const totalRevenue = await getTotalRevenue(params.storeId)
-  const salesCount = await getSalesCount(params.storeId)
-  const stockCount = await getStockCount(params.storeId)
-  const graphRavenue = await getGraphRevenue(params.storeId)
-  const orderinfo = await getOrderInfo(params.storeId)
+  const [totalRevenue, salesCount, stockCount, graphRavenue, orderinfo] = await Promise.all([
+    getTotalRevenue(params.storeId),
+    getSalesCount(params.storeId),
+    getStockCount(params.storeId),
+    getGraphRevenue(params.storeId),
+    getOrderInfo(params.storeId),
+  ]);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -84,7 +85,7 @@ const Dashboardpage: React.FC<DashboardpageProps> = async (props: DashboardpageP
             </CardHeader>
             <CardContent className="p-0 pt-4">
               <div className="h-[350px] w-full">
-                <Overview data={graphRavenue} />
+                <OverviewClient data={graphRavenue} />
               </div>
             </CardContent>
           </Card>

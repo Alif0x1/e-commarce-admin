@@ -1,7 +1,8 @@
+import { unstable_cache } from "next/cache"
 import { prismadb } from "@/lib/prismadb"
 
 
-export const getStockCount = async (storeId: string) => {
+const fetchStockCount = async (storeId: string) => {
   const stockCount = await prismadb.product.count({
     where: {
       storeId,
@@ -11,3 +12,9 @@ export const getStockCount = async (storeId: string) => {
 
   return stockCount
 }
+
+export const getStockCount = (storeId: string) =>
+  unstable_cache(fetchStockCount, ["stock-count", storeId], {
+    tags: [`store-${storeId}-products`],
+    revalidate: 60,
+  })(storeId)

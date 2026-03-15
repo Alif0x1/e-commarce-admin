@@ -10,7 +10,7 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table"
 
-import { useState } from "react"
+import { useState, useCallback, useRef } from "react"
 
 import {
   Table,
@@ -36,10 +36,8 @@ export function DataTable<TData, TValue>({
   searchKey,
 }: DataTableProps<TData, TValue>) {
 
-const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    []
-  )
-
+const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+const [searchValue, setSearchValue] = useState("")
 
   const table = useReactTable({
     data,
@@ -53,6 +51,19 @@ const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     },
   })
 
+const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+const handleSearchChange = useCallback(
+  (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setSearchValue(value)
+    if (debounceTimer.current) clearTimeout(debounceTimer.current)
+    debounceTimer.current = setTimeout(() => {
+      table.getColumn(searchKey)?.setFilterValue(value)
+    }, 300)
+  },
+  [table, searchKey]
+)
 
 
   return (
@@ -61,10 +72,8 @@ const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
          <div className="flex items-center py-4">
         <Input
           placeholder="Search..."
-          value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn(searchKey)?.setFilterValue(event.target.value)
-          }
+          value={searchValue}
+          onChange={handleSearchChange}
           className="max-w-sm"
         />
       </div>
